@@ -1,0 +1,9 @@
+fastapi
+uvicorn
+llama-index
+langchain
+langchain-openai
+google-api-python-client
+SQLAlchemy
+python-dotenv
+langchain-community
