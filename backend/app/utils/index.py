@@ -14,8 +14,6 @@ from sqlalchemy import (
     Table,
     Column,
     String,
-    Integer,
-    select,
 )
 from sqlalchemy import insert
 from dotenv import load_dotenv
