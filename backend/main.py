@@ -1,6 +1,5 @@
 from dotenv import load_dotenv
 load_dotenv()
-
 import logging
 import os
 import uvicorn
@@ -11,7 +10,6 @@ from fastapi.middleware.cors import CORSMiddleware
 app = FastAPI()
 
 environment = os.getenv("ENVIRONMENT", "dev")  # Default to 'development' if not set
-
 
 if environment == "dev":
     logger = logging.getLogger("uvicorn")
