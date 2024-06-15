@@ -1,26 +1,30 @@
 pipeline {
     agent any
     environment {
-        REPOSITORY_URL = 'https://github.com/dipesg/Healthcare-Chatbot-Pipeline' 
+        REPOSITORY_URL = 'https://github.com/dipesg/Healthcare-Chatbot-Pipeline'
+        TARGET_EC2_USER = 'ubuntu'
+        TARGET_EC2_IP = 'ec2-13-51-106-7.eu-north-1.compute.amazonaws.com'
+        SSH_KEY_PATH = '/home/ubuntu/chatbot-jenkins-key.pem'  // Adjust the path as needed
+    }
     stages {
-        stage('Checkout') {
+        stage('Deploy to EC2') {
             steps {
                 script {
-                    if (!fileExists('Healthcare-Chatbot-Pipeline')) {
-                        sh "git clone ${REPOSITORY_URL}"
-                    } else {
-                        dir('Healthcare-Chatbot-Pipeline') {
-                            sh "git pull"
-                        }
+                    sshagent(['your-ssh-credential-id']) {
+                        // Deploy the application
+                        bat """
+                            ssh -o StrictHostKeyChecking=no -i ${SSH_KEY_PATH} ${TARGET_EC2_USER}@${TARGET_EC2_IP} "
+                            if [ ! -d Healthcare-Chatbot-Pipeline ]; then
+                                git clone ${REPOSITORY_URL}
+                            else
+                                cd Healthcare-Chatbot-Pipeline && git pull
+                            fi
+                            cd Healthcare-Chatbot-Pipeline
+                            sudo docker-compose down
+                            sudo docker-compose up --build -d
+                            "
+                        """
                     }
-                }
-            }
-        }
-
-        stage('Deploy to container') {
-            steps {
-                dir('Healthcare-Chatbot-Pipeline') {
-                    sh "sudo docker-compose up --build --detach"
                 }
             }
         }
