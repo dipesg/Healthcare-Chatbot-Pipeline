@@ -7,9 +7,9 @@ services:
       dockerfile: Dockerfile
     image: frontend
     ports:
-      - 3019:3000
+      - 3000:3000
     environment:
-      - NEXT_PUBLIC_CHAT_API=http://localhost:8003/api/chat
+      - NEXT_PUBLIC_CHAT_API=http://localhost:8088/api/chat
       
   backend:
     build:
@@ -18,4 +18,4 @@ services:
     image: backend
     restart: unless-stopped
     ports:
-      - 8003:8001
+      - 8088:8001
