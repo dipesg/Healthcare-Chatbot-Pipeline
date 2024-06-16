@@ -87,7 +87,7 @@ pipeline {
             steps {
                 script {
                     // Run Docker Compose with sudo
-                    sh 'sudo docker-compose up --build'
+                    sh 'docker-compose up --build'
                 }
             }
         }
