@@ -31,20 +31,55 @@
 //     }
 // }
 
+// pipeline {
+//     agent any
+
+//     environment {
+//         // Define environment variables
+//         REPO_URL = 'https://github.com/dipesg/Healthcare-Chatbot-Pipeline.git'
+//         BRANCH = 'main' 
+//     }
+
+//     stages {
+//         stage('Clone Repository') {
+//             steps {
+//                 // Clone the GitHub repository
+//                 git clone ${REPO_URL}
+//             }
+//         }
+        
+//         stage('Run Docker Compose') {
+//             steps {
+//                 script {
+//                     // Run Docker Compose with sudo
+//                     sh 'sudo docker-compose up --build'
+//                 }
+//             }
+//         }
+//     }
+
+//     post {
+//         always {
+//             // Cleanup or post actions can be added here
+//             echo 'Pipeline finished.'
+//         }
+//     }
+// }
+
 pipeline {
     agent any
 
     environment {
         // Define environment variables
         REPO_URL = 'https://github.com/dipesg/Healthcare-Chatbot-Pipeline.git'
-        BRANCH = 'main' 
+        BRANCH = 'main' // Change to your desired branch if necessary
     }
 
     stages {
         stage('Clone Repository') {
             steps {
                 // Clone the GitHub repository
-                git clone ${REPO_URL}
+                git branch: "${BRANCH}", url: "${REPO_URL}"
             }
         }
         
@@ -65,4 +100,5 @@ pipeline {
         }
     }
 }
+
 
